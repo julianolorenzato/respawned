@@ -35,6 +35,11 @@ defmodule Respawned.Accounts do
     |> Repo.preload(:profiles)
   end
 
+  def get_profile(profile_id) when is_binary(profile_id) do
+    Profile
+    |> Repo.get(profile_id)
+  end
+
   def get_first_profile(account_id) when is_binary(account_id) do
     account_id
     |> Profile.by_account_id(preloads: :account, limit: 1)
@@ -45,5 +50,11 @@ defmodule Respawned.Accounts do
     account_id
     |> Profile.by_account_id()
     |> Repo.all()
+  end
+
+  def create_profile(attrs) do
+    attrs
+    |> Profile.insert_changeset()
+    |> Repo.insert()
   end
 end

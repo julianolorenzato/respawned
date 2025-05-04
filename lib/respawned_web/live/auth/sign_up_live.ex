@@ -31,7 +31,7 @@ defmodule RespawnedWeb.Auth.SignUpLive do
     |> Accounts.register_account()
     |> case do
       {:ok, _account} ->
-        {:noreply, put_flash(socket, :success, "Registrado com sucesso")}
+        {:noreply, put_flash(socket, :info, "Registrado com sucesso")}
 
       {:error, %Ecto.Changeset{}} ->
         {:noreply, put_flash(socket, :error, "ops")}

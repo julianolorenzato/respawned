@@ -1,12 +1,21 @@
 defmodule RespawnedWeb.SessionController do
-  alias Respawned.Accounts
   use RespawnedWeb, :controller
+
+  alias Respawned.Accounts
 
   def create(conn, params) do
     case Accounts.authenticate_account(params) do
       {:ok, account} ->
+        first_profile = Accounts.get_first_profile(account.id)
+
         conn
         |> put_session(:account_id, account.id)
+        # every time user sign in, the first profile is selected (if the profile exists)
+        |> then(fn conn ->
+          if is_nil(first_profile),
+            do: put_session(conn, :profile_id, nil),
+            else: put_session(conn, :profile_id, first_profile.id)
+        end)
         |> redirect(to: "/")
 
       {:error, msg} ->

@@ -52,7 +52,7 @@ defmodule RespawnedWeb.HomeLive do
   end
 
   @impl true
-  def mount(_params, _session, socket) do
+  def mount(_params, session, socket) do
     top_guilds = [
       %{name: "Razz", online_members: 353},
       %{name: "SAD", online_members: 353},

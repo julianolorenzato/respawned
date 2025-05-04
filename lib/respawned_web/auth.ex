@@ -36,24 +36,28 @@ defmodule RespawnedWeb.Auth do
     account_id = get_session(conn, :account_id, nil)
 
     case account_id do
-      nil ->
-        assign(conn, :current_account, nil)
-
-      _ ->
-        assign(conn, :current_account, Accounts.get_account(account_id))
+      nil -> assign(conn, :current_account, nil)
+      _ -> assign(conn, :current_account, Accounts.get_account(account_id))
     end
   end
 
   def fetch_current_profile(conn, _opts) do
-    account_id = get_session(conn, :account_id, nil)
+    profile_id = get_session(conn, :profile_id, nil)
 
-    case account_id do
-      nil ->
-        assign(conn, :current_profile, nil)
-
-      _ ->
-        assign(conn, :current_profile, Accounts.get_first_profile(account_id))
+    case profile_id do
+      nil -> assign(conn, :current_profile, nil)
+      _ -> assign(conn, :current_profile, Accounts.get_profile(profile_id))
     end
+
+    # account_id = get_session(conn, :account_id, nil)
+
+    # case account_id do
+    #   nil ->
+    #     assign(conn, :current_profile, nil)
+
+    #   _ ->
+    #     assign(conn, :current_profile, Accounts.get_first_profile(account_id))
+    # end
   end
 
   def check_onboarding(
@@ -61,8 +65,7 @@ defmodule RespawnedWeb.Auth do
           assigns: %{
             current_account: current_account,
             current_profile: current_profile
-          },
-          request_path: request_path
+          }
         } = conn,
         _ops
       ) do
@@ -74,11 +77,11 @@ defmodule RespawnedWeb.Auth do
         conn
 
       {%Account{}, nil} ->
-        if String.starts_with?(request_path, "/onboarding") do
-          conn
-        else
-          redirect(conn, to: ~p"/onboarding")
-        end
+        # if request_path in onboarding_whitelist_paths do
+        #   conn
+        # else
+        redirect(conn, to: ~p"/onboarding")
+        # end
     end
   end
 end

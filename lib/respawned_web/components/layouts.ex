@@ -19,8 +19,7 @@ defmodule RespawnedWeb.Layouts do
 
       <%= if @current_account do %>
         <div class="flex items-center gap-4">
-
-          <.link href={~p"/profiles"}>
+          <.link :if={@current_profile} href={~p"/profiles"}>
             <button class="bg-gray-900 hover:bg-gray-700 cursor-pointer text-white rounded-full p-2">
               <Lucide.arrow_down_up class="w-4 h-4" />
             </button>

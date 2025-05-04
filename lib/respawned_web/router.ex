@@ -15,11 +15,15 @@ defmodule RespawnedWeb.Router do
     plug :put_secure_browser_headers
     plug :fetch_current_account
     plug :fetch_current_profile
-    plug :check_onboarding
+    # plug :check_onboarding
   end
 
   pipeline :api do
     plug :accepts, ["json"]
+  end
+
+  pipeline :onboarding do
+    plug :check_onboarding
   end
 
   pipeline :authenticated do
@@ -46,29 +50,35 @@ defmodule RespawnedWeb.Router do
       pipe_through :authenticated
 
       live "/onboarding", OnboardingLive
+      post "/profiles", ProfileController, :create
 
-      live "/profiles", ProfilesLive, :index
-      live "/profiles/new", ProfilesLive, :new
+      # routes that need onboarding check
+      scope "/" do
+        pipe_through :onboarding
 
-      scope "/communities" do
-        live_session :communities, layout: {RespawnedWeb.Layouts, :communities} do
-          live "/", Communities.IndexLive
-          live "/new", Communities.NewLive
-          live "/:id", Communities.ShowLive
-        end
+        live "/profiles", ProfilesLive, :index
+        live "/profiles/new", ProfilesLive, :new
 
-        scope "/:id" do
-          live_session :community_management,
-            layout: {RespawnedWeb.Layouts, :community_management},
-            on_mount: RespawnedWeb.CurrentCommunityHook do
-            live "/info", Communities.Management.InfoLive
-            live "/managers", Communities.Management.ManagersLive
-            live "/settings", Communities.Management.SettingsLive
+        scope "/communities" do
+          live_session :communities, layout: {RespawnedWeb.Layouts, :communities} do
+            live "/", Communities.IndexLive
+            live "/new", Communities.NewLive
+            live "/:id", Communities.ShowLive
+          end
+
+          scope "/:id" do
+            live_session :community_management,
+              layout: {RespawnedWeb.Layouts, :community_management},
+              on_mount: RespawnedWeb.CurrentCommunityHook do
+              live "/info", Communities.Management.InfoLive
+              live "/managers", Communities.Management.ManagersLive
+              live "/settings", Communities.Management.SettingsLive
+            end
           end
         end
-      end
 
-      live_session :guilds, layout: {RespawnedWeb.Layouts, :guilds} do
+        live_session :guilds, layout: {RespawnedWeb.Layouts, :guilds} do
+        end
       end
     end
   end

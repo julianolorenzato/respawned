@@ -71,11 +71,10 @@ defmodule RespawnedWeb.Communities.NewLive do
       {:ok, _community} ->
         {:noreply,
          socket
-         |> put_flash(:success, "Created!")
+         |> put_flash(:info, "Created!")
          |> redirect(to: ~p"/communities")}
 
-      {:error, ch} ->
-        IO.inspect(ch)
+      {:error, _ch} ->
         {:noreply, put_flash(socket, :error, "Oops! Something got wrong. :(")}
     end
   end
