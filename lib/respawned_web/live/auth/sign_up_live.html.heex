@@ -1,0 +1,9 @@
+<div class="h-full flex flex-col items-center justify-center">
+  <.form class="flex flex-col gap-4" for={@form} phx-change="validate" phx-submit="save">
+    <.input label="Email" type="email" placeholder="Your email" field={@form[:email]} />
+
+    <.input label="Password" type="password" placeholder="Your password" field={@form[:password]} />
+
+    <.button type="submit" class="w-full">Register</.button>
+  </.form>
+</div>

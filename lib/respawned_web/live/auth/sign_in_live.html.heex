@@ -1,0 +1,8 @@
+<div class="h-full flex flex-col items-center justify-center">
+  <.form class="flex flex-col gap-4" for={@form} action={~p"/auth/sign-in"}>
+    <.input label="Email" type="email" placeholder="Your email" field={@form[:email]} />
+    <.input label="Password" type="password" placeholder="Your password" field={@form[:password]} />
+
+    <.button class="w-full">Login</.button>
+  </.form>
+</div>

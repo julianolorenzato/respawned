@@ -1,0 +1,31 @@
+<div class="flex h-full">
+  <nav class="basis-56 p-4 border-r border-black bg-gray-800">
+    <div class="mb-6 flex flex-col gap-8">
+      <.link
+        class="cursor-pointer hover:underline text-white font-bold text-lg flex items-center gap-3"
+        href={~p"/communities/#{@current_community.id}"}
+      >
+        <Lucide.chevron_left />
+        <h1>{@current_community.name}</h1>
+      </.link>
+
+      <h2 class="text-gray-300 text-lg self-center">Management</h2>
+    </div>
+
+    <div class="flex flex-col gap-2">
+      <.link navigate={~p"/communities/#{@current_community.id}/info"}>
+        <.button class="w-full">Info</.button>
+      </.link>
+      <.link navigate={~p"/communities/#{@current_community.id}/managers"}>
+        <.button class="w-full">Managers</.button>
+      </.link>
+      <.link navigate={~p"/communities/#{@current_community.id}/settings"}>
+        <.button class="w-full">Settings</.button>
+      </.link>
+    </div>
+  </nav>
+
+  <div class="grow overflow-y-scroll bg-gray-300">
+    {@inner_content}
+  </div>
+</div>
