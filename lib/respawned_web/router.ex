@@ -36,8 +36,7 @@ defmodule RespawnedWeb.Router do
     live "/", HomeLive
 
     scope "/auth" do
-      post "/sign-in", SessionController, :create
-      delete "/sign-out", SessionController, :delete
+      post "/", SessionController, :create
 
       live_session :public, layout: {RespawnedWeb.Layouts, :public} do
         live "/sign-in", Auth.SignInLive
@@ -51,6 +50,9 @@ defmodule RespawnedWeb.Router do
 
       live "/onboarding", OnboardingLive
       post "/profiles", ProfileController, :create
+
+      put "/auth", SessionController, :update
+      delete "/auth", SessionController, :delete
 
       # routes that need onboarding check
       scope "/" do

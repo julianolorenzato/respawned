@@ -1,6 +1,6 @@
 defmodule RespawnedWeb.ProfilesLive do
   use RespawnedWeb, :live_view
-  
+
   alias Respawned.Accounts.Profile
 
   @impl true
@@ -59,9 +59,17 @@ defmodule RespawnedWeb.ProfilesLive do
             <h1 class="font-bold text-3xl mb-4 text-center">Profiles</h1>
 
             <div class="flex flex-col gap-1">
-              <div
+              <.link
                 :for={profile <- @current_account.profiles}
-                class="cursor-pointer hover:bg-gray-600 flex items-center justify-between p-4 bg-gray-700 text-white"
+                href={~p"/auth?profile_id=#{profile.id}"}
+                method="put"
+                class={[
+                  "cursor-pointer hover:bg-gray-600 flex items-center justify-between p-4 bg-gray-700 text-white",
+                  if(profile.id == @current_profile.id,
+                    do: "border-4 text-black hover:bg-gray-700 cursor-auto border-black",
+                    else: ""
+                  )
+                ]}
               >
                 <span class="text-lg">
                   {profile.nick}
@@ -69,7 +77,7 @@ defmodule RespawnedWeb.ProfilesLive do
                 <span :if={profile.id == @current_profile.id}>
                   Active
                 </span>
-              </div>
+              </.link>
             </div>
           </div>
       <% end %>

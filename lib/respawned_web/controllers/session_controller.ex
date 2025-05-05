@@ -25,6 +25,12 @@ defmodule RespawnedWeb.SessionController do
     end
   end
 
+  def update(conn, %{"profile_id" => profile_id}) when is_binary(profile_id) do
+    conn
+    |> put_session(:profile_id, profile_id)
+    |> redirect(to: ~p"/profiles")
+  end
+
   def delete(conn, _params) do
     conn
     |> configure_session(drop: true)

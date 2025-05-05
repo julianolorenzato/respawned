@@ -8,10 +8,10 @@ defmodule RespawnedWeb.CurrentProfileHook do
   def on_mount(
         :default,
         _params,
-        %{"account_id" => account_id},
+        %{"profile_id" => profile_id},
         socket
       ) do
-    {:cont, assign(socket, :current_profile, Accounts.get_first_profile(account_id))}
+    {:cont, assign(socket, :current_profile, Accounts.get_profile(profile_id))}
   end
 
   def on_mount(:default, _params, _session, socket) do

@@ -36,7 +36,7 @@ defmodule RespawnedWeb.Layouts do
           </div>
         </div>
 
-        <.link href={~p"/auth/sign-out"} method="delete">
+        <.link href={~p"/auth"} method="delete">
           <.button>Sign Out</.button>
         </.link>
       <% else %>
